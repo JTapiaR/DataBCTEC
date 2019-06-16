@@ -1,0 +1,41 @@
+Function allWorksheets()
+    Dim f_activeSheet As Worksheet
+    For Each f_activeSheet In Worksheets
+        'Change StatusBar
+        Application.StatusBar = "Working on " + ActiveSheet.Name + " sheet..."
+        f_activeSheet.Select
+        Call Easy
+    Next f_activeSheet
+End Function
+Sub Easy()
+Dim ri As Long '(row inicial)
+Dim ci As Long '(colum inicial)
+Dim i As Long '(loop)
+Dim rowres As Long '(row respuesta)
+Dim LastRow As Long
+r = 2
+c = 1
+LastRow = Range("A" & Rows.Count).End(xlUp).Row
+rowres = 2
+For i = 1 To LastRow - 1
+If Cells(r, c).Value = Cells(r + 1, c).Value Then
+   If Cells(rowres, 9) = "" And Cells(rowres, 10) = "" Then
+      Cells(rowres, 9) = Cells(r, 1).Value
+      Cells(rowres, 10) = Cells(r, 7).Value + Cells(r + 1, 7).Value
+   Else
+      Cells(rowres, 9) = Cells(r, 1).Value
+      Cells(rowres, 10) = Cells(rowres, 10).Value + Cells(r + 1, 7).Value
+      
+   End If
+   Cells(1, 9).Value = "Ticker"
+   Cells(1, 10).Value = "Total Stock Volume"
+Else
+   rowres = r + 1
+End If
+r = r + 1
+Next i
+Range("I:J").SpecialCells(xlCellTypeBlanks).Delete
+End Sub
+
+
+
